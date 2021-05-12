@@ -32,24 +32,22 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-            for (int i = row; i < data.length; i++) {
-                for (int j = column; j < data[i].length; j++) {
-                    if (!hasNext()) {
-                        throw new NoSuchElementException();
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }  for (int i = row; i < data.length; i++) {
+            for (int j = column; j < data[i].length; j++) {
+                if (data[i][j] != 0) {
+                    if (i + 1 < data.length) {
+                        row = i + 1;
+                        column = j;
                     } else {
-                    if (data[i][j] != 0) {
-                        if (i + 1 < data.length) {
-                            row = i + 1;
-                            column = j;
-                        } else {
-                            row = 0;
-                            column = j + 1;
-                        }
-                        return data[i][j];
+                        row = 0;
+                        column = j + 1;
                     }
+                    return data[i][j];
                 }
             }
         }
-        throw new NoSuchElementException();
+        return 0;
     }
 }

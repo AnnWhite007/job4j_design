@@ -20,13 +20,17 @@ public class EvenIterator implements Iterator<Integer> {
         this.numbers = numbers;
     }
 
-    @Override
-    public boolean hasNext() {
+    public int check () {
         for (int i = point; i < numbers.length; i++)
             if (numbers[i] % 2 == 0) {
-                return true;
+                return i;
             }
-        return false;
+        return -1;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return check() != - 1;
     }
 
     @Override
@@ -34,14 +38,8 @@ public class EvenIterator implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         } else {
-            for (int i = point; i < numbers.length; i++) {
-                if (numbers[i] % 2 == 0) {
-                    point = i + 1;
-                    return numbers[i];
-                }
-            }
-
+            point = check() + 1;
         }
-        throw new NoSuchElementException();
+        return numbers[point - 1];
     }
 }
