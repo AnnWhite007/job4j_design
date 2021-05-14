@@ -20,26 +20,26 @@ public class EvenIterator implements Iterator<Integer> {
         this.numbers = numbers;
     }
 
-    public int check () {
-        for (int i = point; i < numbers.length; i++)
-            if (numbers[i] % 2 == 0) {
-                return i;
+    public void check () {
+        while (point < numbers.length - 1) {
+            if (numbers[point] % 2 == 0) {
+            break;
             }
-        return -1;
+            point++;
+        }
     }
 
     @Override
     public boolean hasNext() {
-        return check() != - 1;
+        check();
+        return numbers[point] % 2 == 0;
     }
 
     @Override
     public Integer next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
-        } else {
-            point = check() + 1;
         }
-        return numbers[point - 1];
+        return numbers[point++];
     }
 }
