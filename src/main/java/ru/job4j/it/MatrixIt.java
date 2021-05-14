@@ -18,36 +18,30 @@ public class MatrixIt implements Iterator<Integer> {
         this.data = data;
     }
 
-    @Override
-    public boolean hasNext() {
-        for (int i = row; i < data.length; i++) {
-            for (int j = column; j < data[i].length; j++) {
-                if (data[i][j] != 0) {
-                    return true;
-                }
+    public void check() {
+        if (column < data[row].length && data[row][column] != 0) {
+            return;
+        }
+        column = 0;
+        while (row < data.length - 1) {
+            row++;
+            if (data[row][column] != 0) {
+                break;
             }
         }
-    return false;
+    }
+
+    @Override
+    public boolean hasNext() {
+        check();
+        return column < data[row].length && data[row][column] != 0;
     }
 
     @Override
     public Integer next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
-        }  for (int i = row; i < data.length; i++) {
-            for (int j = column; j < data[i].length; j++) {
-                if (data[i][j] != 0) {
-                    if (i + 1 < data.length) {
-                        row = i + 1;
-                        column = j;
-                    } else {
-                        row = 0;
-                        column = j + 1;
-                    }
-                    return data[i][j];
-                }
-            }
         }
-        return 0;
+        return data[row][column++];
     }
 }
