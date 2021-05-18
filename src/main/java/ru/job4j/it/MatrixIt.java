@@ -18,23 +18,13 @@ public class MatrixIt implements Iterator<Integer> {
         this.data = data;
     }
 
-    public void check() {
-        if (column < data[row].length && data[row][column] != 0) {
-            return;
-        }
-        column = 0;
-        while (row < data.length - 1) {
-            row++;
-            if (data[row][column] != 0) {
-                break;
-            }
-        }
-    }
-
     @Override
     public boolean hasNext() {
-        check();
-        return column < data[row].length && data[row][column] != 0;
+        while (row < data.length && data[row].length == column) {
+            row++;
+            column = 0;
+        }
+        return row < data.length;
     }
 
     @Override
