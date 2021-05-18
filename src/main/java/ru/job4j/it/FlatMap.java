@@ -20,30 +20,20 @@ public class FlatMap<T> implements Iterator<T> {
         this.data = data;
     }
 
-    public void check() {
-        if (cursor != null && cursor.hasNext()) {
-            return;
-        }
-        cursor = null;
-        while (data.hasNext()) {
+    @Override
+    public boolean hasNext() {
+        while (data.hasNext() && !cursor.hasNext()) {
             Iterator<T> nextData = data.next();
             if (nextData.hasNext()) {
                 cursor = nextData;
-                break;
             }
         }
-    }
-
-    @Override
-    public boolean hasNext() {
-        check();
         return cursor != null && cursor.hasNext();
     }
 
     @Override
     public T next() {
-        check();
-        if (cursor == null) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
         return cursor.next();
