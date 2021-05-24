@@ -7,7 +7,7 @@ import java.util.*;
  * Необходимо сделать универсальную обертку над массивом.
  */
 
-public class SimpleArray <T> {
+public class SimpleArray <T> implements Iterable<T> {
     private T[] models;
     private int size = 0;
 
@@ -33,17 +33,32 @@ public class SimpleArray <T> {
         System.arraycopy(models, index + 1, models, index, size - 1);
         size--;
     }
-// возвращает элемент, расположенный по указанному индексу
+
+    // возвращает элемент, расположенный по указанному индексу
     public T get(int index) {
         Objects.checkIndex(index, size);
         return models[index];
     }
 
     //интерфейс Iterable<T> - метод iterator() возвращает итератор, предназначенный для обхода данной структуры
-    public T iterator() {
-        for (T value : models) {
-            return value;
+    public Iterator<T> iterator() {
+        return new Itr();
+    }
+
+    class Itr implements Iterator<T> {
+        private int point = 0;
+
+        @Override
+        public boolean hasNext() {
+            return point < size;
         }
-        throw new NoSuchElementException();
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return models[point++];
+        }
     }
 }
