@@ -5,21 +5,22 @@ public class UserStore implements Store<User> {
 
     @Override
     public void add(User model) {
+        this.store.add(model);
 
     }
 
     @Override
     public boolean replace(String id, User model) {
-        return false;
+        return this.store.replace(id, model);
     }
 
     @Override
     public boolean delete(String id) {
-        return false;
+        return this.store.delete(id);
     }
 
     @Override
     public User findById(String id) {
-        return null;
+        return this.store.findById(id);
     }
 }
