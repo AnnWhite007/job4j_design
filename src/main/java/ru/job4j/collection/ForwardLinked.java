@@ -10,6 +10,9 @@ import java.util.NoSuchElementException;
  * Значит, можно создать цепочку ссылок и таким образом организовать контейнер для данных.
  * Head - всегда указывает на первый элемент.
  * Процесс удаления в такой структуре сводится к обнулению ссылки на следующий узел.
+ *
+ * 6. Перевернуть связанный список
+ * Задан односвязный список. В нем есть метод revert. Этот метод должен переставить элементы в обратном порядке.
  */
 
 public class ForwardLinked<T> implements Iterable<T> {
@@ -41,6 +44,23 @@ public class ForwardLinked<T> implements Iterable<T> {
     public void addFirst(T value) {
         Node<T> node = new Node<T>(value, head);
         head = node;
+    }
+// Переставляет элементы в обратном порядке
+    public boolean revert() {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        Node<T> nodeX = head;
+        Node<T> nodeY;
+        Node<T> nodeZ = null;
+        while (nodeX != null) {
+            nodeY = nodeX.next;
+            nodeX.next = nodeZ;
+            nodeZ = nodeX;
+            nodeX = nodeY;
+        }
+        head = nodeZ;
+        return true;
     }
 
     @Override
