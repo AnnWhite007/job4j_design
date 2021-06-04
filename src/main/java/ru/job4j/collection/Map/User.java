@@ -1,9 +1,13 @@
 package ru.job4j.collection.Map;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 1. Создать модель User
+ * 2. Без переопределения equals и hashCode
  */
 
 public class User {
@@ -15,6 +19,18 @@ public class User {
         this.name = name;
         this.children = children;
         this.birthday = birthday;
+    }
 
+    public static void main(String[] args) {
+        User first = new User("Ivan", 3, new GregorianCalendar(2014, 12, 21));
+        User second = new User("Ivan", 3, new GregorianCalendar(2014, 12, 21));
+
+        Map<User, Object> map = new HashMap<User, Object>();
+        map.put(first, new Object());
+        map.put(second, new Object());
+
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ", " + entry.getValue());
+        }
     }
 }
