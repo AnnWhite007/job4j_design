@@ -9,6 +9,7 @@ import java.util.Map;
  * 1. Создать модель User
  * 2. Без переопределения equals и hashCode
  * 3. Переопределить только hashCode
+ * 4. Переопределить только equals
  */
 
 public class User {
@@ -34,7 +35,7 @@ public class User {
             System.out.println(entry.getKey() + ", " + entry.getValue());
         }
     }
-
+/*
     @Override
     public int hashCode() {
         int result = name == null ? 0 : name.hashCode();
@@ -42,5 +43,25 @@ public class User {
         int resultCal = birthday == null ? 0 : birthday.hashCode();
         result = result + resultCal;
         return result;
+    } */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        User that = (User) o;
+
+        if (name.equals(that.name)) {
+            return false;
+        }
+        if (children != that.children) {
+            return false;
+        }
+        return birthday.equals(that.birthday);
     }
 }
