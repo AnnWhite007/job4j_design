@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * 1. Создать модель User
  * 2. Без переопределения equals и hashCode
+ * 3. Переопределить только hashCode
  */
 
 public class User {
@@ -32,5 +33,14 @@ public class User {
         for (Map.Entry entry : map.entrySet()) {
             System.out.println(entry.getKey() + ", " + entry.getValue());
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name == null ? 0 : name.hashCode();
+        result = result + children;
+        int resultCal = birthday == null ? 0 : birthday.hashCode();
+        result = result + resultCal;
+        return result;
     }
 }
