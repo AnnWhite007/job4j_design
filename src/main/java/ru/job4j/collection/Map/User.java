@@ -10,6 +10,7 @@ import java.util.Map;
  * 2. Без переопределения equals и hashCode
  * 3. Переопределить только hashCode
  * 4. Переопределить только equals
+ * 5. Переопределить и equals и hashCode
  */
 
 public class User {
@@ -35,7 +36,7 @@ public class User {
             System.out.println(entry.getKey() + ", " + entry.getValue());
         }
     }
-/*
+
     @Override
     public int hashCode() {
         int result = name == null ? 0 : name.hashCode();
@@ -43,7 +44,7 @@ public class User {
         int resultCal = birthday == null ? 0 : birthday.hashCode();
         result = result + resultCal;
         return result;
-    } */
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -56,7 +57,7 @@ public class User {
 
         User that = (User) o;
 
-        if (name.equals(that.name)) {
+        if (!name.equals(that.name)) {
             return false;
         }
         if (children != that.children) {
