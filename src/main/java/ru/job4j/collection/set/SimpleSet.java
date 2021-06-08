@@ -3,6 +3,7 @@ package ru.job4j.collection.set;
 import ru.job4j.collection.SimpleArray;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * 1. Реализовать коллекцию Set на массиве
@@ -16,19 +17,18 @@ public class SimpleSet<T> implements Set<T> {
 
     @Override
     public boolean add(T value) {
-        for (T el : set) {
-            if (equals(el, value)) {
-                return false;
-            }
+        if (!contains(value)) {
+            set.add(value);
+            return true;
         }
-        set.add(value);
-        return true;
+        return false;
+
     }
 
     @Override
     public boolean contains(T value) {
         for (T el : set) {
-            if (equals(el, value)) {
+            if (Objects.equals(value, el)) {
                 return true;
             }
         }
@@ -40,13 +40,4 @@ public class SimpleSet<T> implements Set<T> {
         return set.iterator();
     }
 
-    public static boolean equals(Object a, Object b) {
-        if (a == null && b == null) {
-            return true;
-        } else if (a == null || b == null) {
-               return false;
-        } else {
-                return a.equals(b);
-            }
-        }
 }
