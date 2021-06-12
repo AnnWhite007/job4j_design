@@ -1,4 +1,4 @@
-package ru.job4j.collection.Map;
+package ru.job4j.collection.map;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
