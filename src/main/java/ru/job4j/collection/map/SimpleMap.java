@@ -49,14 +49,16 @@ public class SimpleMap<K, V> implements Map<K, V> {
         MapEntry<K, V>[] oldTable = table;
         table = new MapEntry[capacity];
         for (MapEntry<K, V> item : oldTable) {
-            table[indexFor(hash(item.key.hashCode()))] = item;
+            if (item == null) {
+                table[indexFor(hash(item.key.hashCode()))] = item;
+            }
         }
     }
 
     @Override
     public V get(K key) {
         int i = indexFor(hash(key.hashCode()));
-        if (i < capacity && table[i] != null) {
+        if (table[i] != null && key.equals(table[i].key)) {
             return table[i].value;
         }
         return null;
@@ -66,10 +68,13 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         V value = get(key);
         if (value != null) {
-            table[indexFor(hash(key.hashCode()))] = null;
-            modCount++;
-            count--;
-            return true;
+            int i = indexFor(hash(key.hashCode()));
+            if (table[i].key.equals(key)) {
+                table[i] = null;
+                modCount++;
+                count--;
+                return true;
+            }
         }
         return false;
     }
