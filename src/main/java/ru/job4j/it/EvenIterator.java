@@ -20,7 +20,7 @@ public class EvenIterator implements Iterator<Integer> {
         this.numbers = numbers;
     }
 
-    public void check () {
+    public void check() {
         while (point < numbers.length - 1) {
             if (numbers[point] % 2 == 0) {
             break;

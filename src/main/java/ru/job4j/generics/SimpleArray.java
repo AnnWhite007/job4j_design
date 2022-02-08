@@ -7,7 +7,7 @@ import java.util.*;
  * Необходимо сделать универсальную обертку над массивом.
  */
 
-public class SimpleArray <T> implements Iterable<T> {
+public class SimpleArray<T> implements Iterable<T> {
     private T[] models;
     private int size = 0;
 

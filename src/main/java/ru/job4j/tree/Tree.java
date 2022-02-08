@@ -44,5 +44,4 @@ public interface Tree<E> {
             return value.equals(that.value);
         }
     }
-
 }
