@@ -45,7 +45,7 @@ public class ForwardLinked<T> implements Iterable<T> {
         Node<T> node = new Node<T>(value, head);
         head = node;
     }
-// Переставляет элементы в обратном порядке
+    /** Переставляет элементы в обратном порядке */
     public boolean revert() {
         if (head == null || head.next == null) {
             return false;

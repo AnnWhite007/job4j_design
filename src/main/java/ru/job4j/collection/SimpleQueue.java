@@ -10,7 +10,7 @@ public class SimpleQueue<T> {
     private int countPoll = 0;
     private int countPush = 0;
 
-    //возвращает первое значение и удалять его из коллекции
+    /** Возвращает первое значение и удалять его из коллекции */
     public T poll() {
         if (countPoll == 0) {
             while (countPush != 0) {
@@ -22,7 +22,7 @@ public class SimpleQueue<T> {
         countPoll--;
         return out.pop();
     }
-//помещает значение в конец
+    /** Помещает значение в конец */
     public void push(T value) {
         in.push(value);
         countPush++;

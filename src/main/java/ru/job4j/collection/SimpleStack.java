@@ -10,11 +10,11 @@ package ru.job4j.collection;
 public class SimpleStack<T> {
     private ForwardLinked<T> linked = new ForwardLinked<T>();
 
-    // Возвращает значение и удаляет его из коллекции
+    /** Возвращает значение и удаляет его из коллекции */
     public T pop() {
         return linked.deleteFirst();
     }
-// Помещает значение в коллекцию
+    /** Помещает значение в коллекцию */
     public void push(T value) {
         linked.addFirst(value);
     }
