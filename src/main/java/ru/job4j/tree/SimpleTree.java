@@ -1,6 +1,7 @@
 package ru.job4j.tree;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  *2.1.6.1. Создать элементарную структуру дерева
@@ -26,7 +27,7 @@ public class SimpleTree<E> implements Tree<E> {
         if (!dataParrent.isEmpty() && dataChild.isEmpty()) {
             Node<E> currentParent = dataParrent.get();
             currentParent.children.add(new Node<E>(child));
-            return true;
+            rsl = true;
             }
         return rsl;
     }
