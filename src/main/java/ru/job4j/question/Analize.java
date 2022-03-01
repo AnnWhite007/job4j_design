@@ -21,8 +21,8 @@ import java.util.Set;
 public class Analize {
 
     public static Info diff(Set<User> previous, Set<User> current) {
-        Iterator <User> itprev = previous.iterator();
-        Iterator <User> itcur = current.iterator();
+        Iterator<User> itprev = previous.iterator();
+        Iterator<User> itcur = current.iterator();
         HashMap<Integer, String> changed = new HashMap<>();
         Info rsl = new Info(0, 0, 0);
 
