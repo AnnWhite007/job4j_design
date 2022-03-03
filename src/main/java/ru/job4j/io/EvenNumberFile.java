@@ -19,7 +19,7 @@ public class EvenNumberFile {
             StringBuilder text = new StringBuilder();
             int read;
             while ((read = in.read()) != -1) {
-                    text.append((char)read);
+                    text.append((char) read);
             }
             String[] lines = text.toString().split(System.lineSeparator());
             for (String line : lines) {
@@ -30,7 +30,7 @@ public class EvenNumberFile {
                 }
             }
         }
-            catch (Exception e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
