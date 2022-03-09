@@ -24,11 +24,11 @@ public class Analizy {
             String start = null;
             boolean flag = true;
             while ((s = in.readLine()) != null) {
-                if ((s.startsWith("4") || s.startsWith("5")) && flag == true) {
+                if ((s.startsWith("4") || s.startsWith("5")) && flag) {
                     start = s.split(" ")[1];
                     flag = false;
                 }
-                if ((s.startsWith("2") || s.startsWith("3")) && flag == false) {
+                if ((s.startsWith("2") || s.startsWith("3")) && !flag) {
                     out.println(start + "; " + s.split(" ")[1] + ";");
                     flag = true;
                 }
