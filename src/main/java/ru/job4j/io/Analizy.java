@@ -18,23 +18,19 @@ public class Analizy {
      * @param target - имя путь к файлу результата анализа
      */
     public static void unavailable(String source, String target) {
-        String start;
-        String finish;
         try (BufferedReader in = new BufferedReader(new FileReader(source));
              PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
             String s;
-            ArrayList<String> array = new ArrayList<>();
+            String start = null;
+            boolean flag = true;
             while ((s = in.readLine()) != null) {
-                array.add(s);
-            }
-            for (int i = 0; i < array.size(); i++) {
-                if (array.get(i).startsWith("4") || array.get(i).startsWith("5")) {
-                    start = array.get(i).split(" ")[1];
-                    while (array.get(i).startsWith("4") || array.get(i).startsWith("5")) {
-                        i++;
-                    }
-                    finish = array.get(i).split(" ")[1];
-                    out.println(start + "; " + finish + ";");
+                if ((s.startsWith("4") || s.startsWith("5")) && flag == true) {
+                    start = s.split(" ")[1];
+                    flag = false;
+                }
+                if ((s.startsWith("2") || s.startsWith("3")) && flag == false) {
+                    out.println(start + "; " + s.split(" ")[1] + ";");
+                    flag = true;
                 }
             }
         } catch (IOException e) {
