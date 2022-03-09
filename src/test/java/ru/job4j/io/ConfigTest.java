@@ -32,4 +32,11 @@ public class ConfigTest {
         config.load();
         config.value("bmw");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenNoKey() {
+        String path = "./data/without_pair.properties";
+        Config config = new Config(path);
+        config.load();
+    }
 }

@@ -36,6 +36,9 @@ public class Config {
             String[] data;
             while ((s = read.readLine()) != null) {
                 if (!s.startsWith("#") && !s.isEmpty()) {
+                    if (s.startsWith("=")) {
+                        throw new IllegalArgumentException("No key");
+                    }
                     data = s.split("=");
                     if (data.length == 2) {
                         values.put(data[0], data[1]);
