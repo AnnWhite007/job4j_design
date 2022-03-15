@@ -1,13 +1,13 @@
 package ru.job4j.io;
 
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static java.nio.file.FileVisitResult.CONTINUE;
 
 /**
  * 4.1. Сканирование файловой системы.
@@ -21,30 +21,38 @@ import java.util.function.Predicate;
  * Программа должна вернуть файлы с расширением js.
  */
 
-public class SearchFiles extends SimpleFileVisitor<Path> {
+public class SearchFiles implements FileVisitor<Path> {
     Predicate<Path> condition;
-    List<String> list;
-    List<Path> rsl;
+    List<Path> rsl = new ArrayList<>();
 
     public SearchFiles(Predicate<Path> condition) {
         this.condition = condition;
     }
 
     public List<Path> getPaths() {
-        for (String s : list) {
-            rsl.add(Path.of(s));
-        }
         return rsl;
     }
 
     @Override
+    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+        return CONTINUE;
+    }
+
+    @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        List<String> lines = Files.readAllLines(file);
-        for (String s: lines) {
-            if (condition.test(Path.of(s))) {
-                list.add(s);
-            }
+        if (condition.test(file)) {
+            rsl.add(file.toAbsolutePath());
         }
-        return FileVisitResult.CONTINUE;
+        return CONTINUE;
+    }
+
+    @Override
+    public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+        return CONTINUE;
+    }
+
+    @Override
+    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+        return CONTINUE;
     }
 }
