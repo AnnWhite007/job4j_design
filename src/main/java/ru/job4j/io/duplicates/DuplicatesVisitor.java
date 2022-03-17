@@ -33,10 +33,11 @@ import java.util.List;
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     HashMap<FileProperty, List<Path>> collect = new HashMap<>();
 
-    public void printResult () {
-        for (FileProperty key : collect.keySet())
-        if (collect.get(key).size() > 1) {
-            collect.get(key).forEach(System.out::println);
+    public void printResult() {
+        for (FileProperty key : collect.keySet()) {
+            if (collect.get(key).size() > 1) {
+                collect.get(key).forEach(System.out::println);
+            }
         }
     }
 
