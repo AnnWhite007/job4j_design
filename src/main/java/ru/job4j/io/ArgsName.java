@@ -31,6 +31,9 @@ public class ArgsName {
         }
         for (String par : args) {
             String[] cut = par.split("=", 2);
+            if (!cut[0].startsWith("-")) {
+                throw new IllegalArgumentException(String.format("Invalid parameter: %s", cut[0]));
+            }
             if (cut[1] == "") {
                 throw new IllegalArgumentException(String.format("Parameter hasn't value: %s = null", cut[0]));
             }
