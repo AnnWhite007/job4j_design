@@ -30,7 +30,7 @@ import java.util.function.Predicate;
 public class Search {
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
-            throw new NullPointerException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER and file extension\n"
+            throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER and file extension\n"
                     + " at ru.job4j.io.Search.main(Search.java:8)");
         }
         Path start = Paths.get(args[0]);
