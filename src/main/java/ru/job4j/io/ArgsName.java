@@ -31,12 +31,7 @@ public class ArgsName {
         }
         for (String par : args) {
             String[] cut = par.split("=", 2);
-            if (!cut[0].startsWith("-")) {
-                throw new IllegalArgumentException(String.format("Invalid parameter: %s", cut[0]));
-            }
-            if (cut[1] == "") {
-                throw new IllegalArgumentException(String.format("Parameter hasn't value: %s = null", cut[0]));
-            }
+            check(cut);
             values.put(cut[0].replace("-", ""), cut[1]);
         }
     }
@@ -45,6 +40,15 @@ public class ArgsName {
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
+    }
+
+    private static void check(String[] value) {
+        if (!value[0].startsWith("-")) {
+            throw new IllegalArgumentException(String.format("Invalid parameter: %s", value[0]));
+        }
+        if (value[1] == "") {
+            throw new IllegalArgumentException(String.format("Parameter hasn't value: %s = null", value[0]));
+        }
     }
 
     public static void main(String[] args) {
