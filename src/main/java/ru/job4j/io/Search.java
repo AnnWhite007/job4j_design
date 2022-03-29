@@ -44,7 +44,7 @@ public class Search {
         return searcher.getPaths();
     }
 
-    private static void check (String arg, Path value) {
+    private static void check(String arg, Path value) {
         if (!Files.exists(value)) {
             throw new IllegalArgumentException(String.format("Not exist %s", value.toFile().getAbsoluteFile()));
         }
