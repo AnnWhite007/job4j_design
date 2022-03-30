@@ -35,4 +35,10 @@ public class ArgsNameTest {
     public void whenWrongSomeArgument() {
         ArgsName jvm = ArgsName.of(new String[] {"-enconding=UTF-8", "-Xmx="});
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenGetNotExist2() {
+        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512"});
+        jvm.get("Xms");
+    }
 }

@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,10 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
+        if (!values.containsKey(key)) {
+            throw new IllegalArgumentException(String.format("Not exist parameter %s", key));
+        }
+
         return values.get(key);
     }
 
