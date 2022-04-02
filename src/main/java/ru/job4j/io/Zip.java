@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -20,8 +21,8 @@ import java.util.zip.ZipOutputStream;
  */
 
 public class Zip {
-    public void packFiles(List<Path> sources, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
+    public void packFiles(List<Path> sources, Path target) {
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(String.valueOf(target))))) {
             for (Path source : sources) {
                 zip.putNextEntry(new ZipEntry(String.valueOf(source)));
                 try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(String.valueOf(source)))) {
@@ -48,7 +49,20 @@ public class Zip {
         }
     }
 
+    private static void check(Path value) {
+        if (!Files.exists(value)) {
+            throw new IllegalArgumentException(String.format("Not exist %s", value.toFile().getAbsoluteFile()));
+        }
+        if (!Files.isDirectory(value)) {
+            throw new IllegalArgumentException(String.format("Not directory %s", value.toFile().getAbsoluteFile()));
+        }
+    }
+
     public static void main(String[] args) throws IOException {
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Usage java -jar dir.jar ROOT_FOLDER  .file_extension_to_exclude RECORDING_FOLDER");
+        }
+
         Zip zip = new Zip();
         zip.packSingleFile(
                 new File("./pom.xml"),
@@ -57,18 +71,10 @@ public class Zip {
 
         Zip zippack = new Zip();
         ArgsName argsmap = ArgsName.of(args);
-        File in = new File(argsmap.get("d"));
-        File out = new File(argsmap.get("o"));
-        if (!in.exists()) {
-            throw new IllegalArgumentException(String.format("Not exist %s", in.getAbsoluteFile()));
-        }
-        if (!in.isDirectory()) {
-            throw new IllegalArgumentException(String.format("Not directory %s", in.getAbsoluteFile()));
-        }
-        if (!argsmap.get("e").startsWith(".")) {
-            throw new IllegalArgumentException(String.format("Incorrect file extension. %s should start with . ", argsmap.get("e")));
-        }
-        List<Path> list = Search.search(Paths.get(argsmap.get("d")), p -> !p.toFile().getName().endsWith(argsmap.get("e")));
+        Path in = Paths.get(argsmap.get("d"));
+        check(in);
+        Path out = Paths.get(argsmap.get("o"));
+        List<Path> list = Search.search(in, p -> !p.toFile().getName().endsWith(argsmap.get("e")));
         zippack.packFiles(list, out);
     }
 }
