@@ -1,10 +1,8 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -22,19 +20,16 @@ import java.util.zip.ZipOutputStream;
  */
 
 public class Zip {
-
     public void packFiles(List<Path> sources, File target) {
-        {
-            try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-                for (Path source : sources) {
-                    zip.putNextEntry(new ZipEntry(String.valueOf(source)));
-                    try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(String.valueOf(source)))) {
-                        zip.write(out.readAllBytes());
-                    }
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
+            for (Path source : sources) {
+                zip.putNextEntry(new ZipEntry(String.valueOf(source)));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(String.valueOf(source)))) {
+                    zip.write(out.readAllBytes());
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -71,7 +66,7 @@ public class Zip {
             throw new IllegalArgumentException(String.format("Not directory %s", in.getAbsoluteFile()));
         }
         if (!argsmap.get("e").startsWith(".")) {
-            throw new IllegalArgumentException(String.format("Incorrect file extension."));
+            throw new IllegalArgumentException(String.format("Incorrect file extension. %s should start with . ", argsmap.get("e")));
         }
         List<Path> list = Search.search(Paths.get(argsmap.get("d")), p -> !p.toFile().getName().endsWith(argsmap.get("e")));
         zippack.packFiles(list, out);
