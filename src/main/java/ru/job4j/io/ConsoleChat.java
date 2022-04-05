@@ -31,7 +31,7 @@ public class ConsoleChat {
     private final String botAnswers;
 
     /**
-     * @param path       - имя файла, в который будет записан весь диалог между ботом и пользователем
+     * @param path - имя файла, в который будет записан весь диалог между ботом и пользователем
      * @param botAnswers имя файла в котором находятся строки с ответами, которые будет использовать бот
      */
     public ConsoleChat(String path, String botAnswers) {
@@ -62,11 +62,8 @@ public class ConsoleChat {
                     dialog.add(i);
                     isClose = false;
                     break;
-                case (CONTINUE):
-                    dialog.add(i);
-                    break;
                 default:
-                    if (dialog.size() == 0 || !dialog.get(dialog.size() - 1).equals(STOP)) {
+                    if (dialog.size() == 0 || !STOP.equals(dialog.get(dialog.size() - 1)) || CONTINUE.equals(i)) {
                         dialog.add(i);
                         Random rand = new Random();
                         String answer = answers.get(rand.nextInt(answers.size()));
@@ -75,6 +72,7 @@ public class ConsoleChat {
                     }
                     break;
             }
+
         }
         saveLog(dialog);
     }
@@ -86,7 +84,7 @@ public class ConsoleChat {
         List<String> list = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(botAnswers))) {
             br.lines().forEach(list::add);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return list;
