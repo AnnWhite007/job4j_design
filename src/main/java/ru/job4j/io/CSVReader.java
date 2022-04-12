@@ -31,9 +31,7 @@ import java.util.stream.Collectors;
 public class CSVReader {
     public static void handle(ArgsName argsName) {
         File in = new File(argsName.get("path"));
-        if (!Files.exists(Paths.get(String.valueOf(in)))) {
-            throw new IllegalArgumentException(String.format("Not exist %s", in.getAbsoluteFile()));
-        }
+        check(argsName, in);
         List<String> filter = Arrays.asList(argsName.get("filter").split(","));
 
         try {
@@ -69,6 +67,18 @@ public class CSVReader {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void check(ArgsName value, File file) {
+        if (!Files.exists(Paths.get(String.valueOf(file)))) {
+            throw new IllegalArgumentException(String.format("Not exist %s", file.getAbsoluteFile()));
+        }
+        if (value.get("delimiter").equals("")) {
+            throw new IllegalArgumentException("No delimiter");
+        }
+        if (!"stdout".equals(value.get("out")) && !value.get("out").endsWith(".csv")) {
+            throw new IllegalArgumentException("Incorrect recording folder");
         }
     }
 
