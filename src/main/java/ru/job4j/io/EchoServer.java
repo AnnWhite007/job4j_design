@@ -25,6 +25,19 @@ import java.net.Socket;
  * Параметр http://localhost:9000/?msg=Hello - это адрес. Он состоит из протокола http.
  * Адреса localhost. Порта 9000. Параметров запроса /?msg=Hello.
  * На стороне сервера эти параметры можно получить. Первая строчка содержит параметры запроса.
+ *
+ * Задача:
+ * Если клиент отправляет запрос http://localhost:9000/?msg=Bye нужно завершить работу сервера.
+ *
+ * 3. Бот
+ * Чтобы браузер понял наш ответ, мы также должны использовать структуру HTTP - сообщения.
+ * Сначала запишем стартовую строку с кодом состояния, затем добавим пустую строку (\r\n\r\n), и только после этого записываем наше сообщение.
+ *
+ * Задача:
+ * Клиент отправляет запросы, сервер должен ему отвечать.
+ * msg=Hello > Hello.
+ * msg=Exit > Завершить работу сервера.
+ * msg=Any > What.
  */
 
 public class EchoServer {
@@ -36,12 +49,17 @@ public class EchoServer {
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String[] msg = in.readLine().split(" ");
-                    if (!msg[1].endsWith("Bye")) {
-                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                    } else {
+                    if (msg[1].endsWith("Exit")) {
                         in.close();
                         out.close();
                         socket.close();
+                    }
+                    if (msg[1].endsWith("Hello")) {
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        out.write("Hello, dear friend.\r\n\r\n".getBytes());
+                    } else {
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        out.write("What\r\n\r\n".getBytes());
                     }
                     for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
                         System.out.println(str);
