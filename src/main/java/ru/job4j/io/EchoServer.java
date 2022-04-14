@@ -3,8 +3,8 @@ package ru.job4j.io;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 2. Что такое Socket?
@@ -40,10 +40,16 @@ import java.util.stream.Collectors;
  * msg=Hello > Hello.
  * msg=Exit > Завершить работу сервера.
  * msg=Any > What.
+ *
+ * 4. Slf4j - вывод exception.
+ * Если в проекте используется логгер, то для вывода ошибок или отладочной информации нужно использовать только логгер.
+ * Первый параметр - это сообщение, почему тут может быть исключение. Второй параметр - это объект исключения.
  */
 
 public class EchoServer {
-    public static void main(String[] args) throws IOException {
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
+
+    public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
@@ -69,6 +75,8 @@ public class EchoServer {
                     out.flush();
                 }
             }
+        } catch (Exception e) {
+            LOG.error("IOException", e);
         }
     }
 }
