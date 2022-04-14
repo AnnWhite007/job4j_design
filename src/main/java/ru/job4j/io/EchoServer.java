@@ -3,6 +3,8 @@ package ru.job4j.io;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * 2. Что такое Socket?
@@ -48,21 +50,21 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
+                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     String[] msg = in.readLine().split(" ");
-                    if (msg[1].endsWith("Exit")) {
-                        in.close();
-                        out.close();
-                        socket.close();
-                    }
-                    if (msg[1].endsWith("Hello")) {
-                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                        out.write("Hello, dear friend.\r\n\r\n".getBytes());
-                    } else {
-                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                        out.write("What\r\n\r\n".getBytes());
-                    }
+                    System.out.println(String.join(" ", msg));
                     for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
                         System.out.println(str);
+                    }
+                    if (msg[1].endsWith("?msg=Exit")) {
+                        in.close();
+                        out.close();
+                        server.close();
+                        socket.close();
+                    } else if (msg[1].endsWith("?msg=Hello")) {
+                        out.write("Hello, dear friend.\r\n\r\n".getBytes());
+                    } else {
+                        out.write("What\r\n\r\n".getBytes());
                     }
                     out.flush();
                 }
