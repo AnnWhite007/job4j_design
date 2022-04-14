@@ -1,7 +1,7 @@
 package ru.job4j.io;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 1. Log4j. Логирование системы.
@@ -21,11 +21,16 @@ import org.apache.log4j.Logger;
  * log4j.rootLogger=DEBUG, console
  * ERROR - критические ошибки.
  * DEBUG - отладочная информация.
+ *
+ * 2. Simple Loggin Facade 4 Java.
+ * В Java есть несколько библиотек для логгирования: Logback, log4j, System.out.println.
+ * Библиотека slf4j позволяет абстрагироваться от конкретных библиотек. Это позволяет придерживаться единого стиля логгирования для проектов.
+ * SLF использует шаблон проектирования - фасад. Шаблон фасад упрощает АПИ логгеров. Делает их понятными.
  */
 
 public class UsageLog4j {
 
-    private static final Logger LOG = LogManager.getLogger(UsageLog4j.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) {
         LOG.trace("trace message");
