@@ -52,10 +52,11 @@ public class UsageLog4j {
         short distanse = 1500;
         long count = 45852524;
         double rating = 4.5;
+        float num = 50.123456f;
         boolean actual = true;
         char simbol = 'a';
         LOG.debug("User info name : {}, age : {}", name, age);
         LOG.info("User info count : {}, rating : {}, simbol : {}, distanse : {}", count, rating, simbol, distanse);
-        LOG.warn("User info temperature : {}, actual : {}", tempreture, actual);
+        LOG.warn("User info temperature : {}, actual : {}, number : {}", tempreture, actual, num);
     }
 }
