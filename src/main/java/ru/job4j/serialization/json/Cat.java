@@ -24,7 +24,7 @@ public class Cat {
                 + ", age=" + age
                 + ", parents=" + parents
                 + ", home" + home
-                + ", kittens" + Arrays.toString(kittensName)
+                + ", kittensName" + Arrays.toString(kittensName)
                 + '}';
     }
 }

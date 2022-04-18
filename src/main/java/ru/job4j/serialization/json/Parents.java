@@ -1,19 +1,18 @@
 package ru.job4j.serialization.json;
 
 public class Parents {
-    private final String dadName;
-    private final String momName;
+    private final String father;
+    private final String mother;
 
-    public Parents(String dadName, String momName) {
-        this.dadName = dadName;
-        this.momName = momName;
+    public Parents(String father, String mother) {
+        this.father = father;
+        this.mother = mother;
     }
 
     @Override
     public String toString() {
-        return "Parents{"
-                + "mother=" + momName
-                + "father=" + dadName
+        return "father: " + father
+                + "mother: " + mother
                 + '}';
     }
 }

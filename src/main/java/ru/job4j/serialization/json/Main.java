@@ -39,11 +39,11 @@ public class Main {
                         + "\"age\":6,"
                         + "\"parents\":"
                         + "{"
-                        + "\"father\":\"Fox\""
+                        + "\"father\":\"Fox, \","
                         + "\"mother\":\"Kasia\""
                         + "},"
                         + "\"home\":false,"
-                        + "\"kittens\":"
+                        + "\"kittensName\":"
                         + "[\"Finic\",\"Fes\"]"
                         + "}";
         final Cat catMod = gson.fromJson(catJson, Cat.class);
