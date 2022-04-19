@@ -2,6 +2,11 @@ package ru.job4j.serialization.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 2. Формат JSON
@@ -21,6 +26,14 @@ import com.google.gson.GsonBuilder;
  * Ссылочные типы данных:
  * - Объект - заключается в фигурные скобки ({ и }) и содержит разделенный запятой список пар имя/значение.
  * - Массив - заключается в квадратные скобки ([ и ]) и содержит разделенный запятой список значений.
+ *
+ * 5. Преобразование JSON в POJO. JsonObject
+ * JSON-Java (org.json) легковесная функциональная библиотека для работы с JSON,
+ * которая дополнительно умеет преобразовывать JSON в XML, HTTP header, Cookies и др. В отличие от Jackson или Gson,
+ * JSON-Java преобразует json-строку не в объект пользовательского класса (способ Data bind),
+ * а в объекты своей библиотеки JSONObject, JSONArray (способ Tree Model).
+ * Объекты классов Cat, Parents из урока «Формат JSON» являются POJO, но для корректного преобразования в строку
+ * с помощью org.json к ним ещё необходимо добавить геттеры.
  */
 
 public class Main {
@@ -48,5 +61,29 @@ public class Main {
                         + "}";
         final Cat catMod = gson.fromJson(catJson, Cat.class);
         System.out.println(catMod);
+
+        /* JSONObject из json-строки строки */
+        JSONObject jsonParents = new JSONObject("{\"father\":\"Vasiliy\",\"mother\":\"Myrka\"}");
+
+        /* JSONArray из ArrayList */
+        List<String> list = new ArrayList<>();
+        list.add("Finic");
+        list.add("Kasia");
+        JSONArray jsonKittens = new JSONArray(list);
+
+        /* JSONObject напрямую методом put */
+        final Cat cat2 = new Cat("Sami", 6, new Parents("Sam", "Pam"), false,
+                new String[] {"Honey", "Blum"});
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", cat2.getName());
+        jsonObject.put("age", cat2.getAge());
+        jsonObject.put("parents", jsonParents);
+        jsonObject.put("kittens", jsonKittens);
+
+        /* Выведем результат в консоль */
+        System.out.println(jsonObject.toString());
+
+        /* Преобразуем объект person в json-строку */
+        System.out.println(new JSONObject(cat2).toString());
     }
 }

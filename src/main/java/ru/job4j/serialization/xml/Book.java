@@ -110,7 +110,7 @@ public class Book {
             xml = writer.getBuffer().toString();
             System.out.println(xml);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         /* Для десериализации нам нужно создать десериализатор */
         Unmarshaller unmarshaller = context.createUnmarshaller();

@@ -17,6 +17,14 @@ public class Cat {
         this.kittensName = kittensName;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
     @Override
     public String toString() {
         return "Cat{"
