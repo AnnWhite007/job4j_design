@@ -25,14 +25,26 @@ public class Cat {
         return age;
     }
 
+    public boolean isHome() {
+        return home;
+    }
+
+    public Parents getParents() {
+        return parents;
+    }
+
+    public String[] getKittensName() {
+        return kittensName;
+    }
+
     @Override
     public String toString() {
         return "Cat{"
                 + "name=" + name
                 + ", age=" + age
                 + ", parents=" + parents
-                + ", home" + home
-                + ", kittensName" + Arrays.toString(kittensName)
+                + ", home=" + home
+                + ", kittensName=" + Arrays.toString(kittensName)
                 + '}';
     }
 }

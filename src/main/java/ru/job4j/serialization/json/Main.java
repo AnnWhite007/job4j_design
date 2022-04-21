@@ -62,7 +62,7 @@ public class Main {
         final Cat catMod = gson.fromJson(catJson, Cat.class);
         System.out.println(catMod);
 
-        /* JSONObject из json-строки строки */
+        /* JSONObject из json-строки */
         JSONObject jsonParents = new JSONObject("{\"father\":\"Vasiliy\",\"mother\":\"Myrka\"}");
 
         /* JSONArray из ArrayList */
@@ -78,12 +78,13 @@ public class Main {
         jsonObject.put("name", cat2.getName());
         jsonObject.put("age", cat2.getAge());
         jsonObject.put("parents", jsonParents);
+        jsonObject.put("home", cat2.isHome());
         jsonObject.put("kittens", jsonKittens);
 
         /* Выведем результат в консоль */
         System.out.println(jsonObject.toString());
 
-        /* Преобразуем объект person в json-строку */
+        /* Преобразуем объект cat2 в json-строку */
         System.out.println(new JSONObject(cat2).toString());
     }
 }

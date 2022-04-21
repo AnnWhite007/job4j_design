@@ -9,9 +9,18 @@ public class Parents {
         this.mother = mother;
     }
 
+    public String getFather() {
+        return father;
+    }
+
+    public String getMother() {
+        return mother;
+    }
+
     @Override
     public String toString() {
-        return "father: " + father
+        return "Parents{"
+                + "father: " + father
                 + "mother: " + mother
                 + '}';
     }
