@@ -40,7 +40,11 @@ public class Find {
     public static List<Path> search(Path root, ArgsCut argsCut) throws IOException {
         Predicate<Path> condition = null;
         if ("mask".equals(argsCut.get("t"))) {
-            condition = p -> p.toFile().getName().endsWith(argsCut.get("n"));
+            String reg = argsCut.get("n").replace(".", "[.]");
+            reg = reg.replace("*", "\\w+");
+            reg = reg.replace("?", "\\w");
+            String rsl = "^" + reg + "$";
+            condition = p -> p.toFile().getName().matches(rsl);
         } else if ("name".equals(argsCut.get("t"))) {
             condition = p -> p.toFile().getName().equals(argsCut.get("n"));
         } else if ("regex".equals(argsCut.get("t"))) {
