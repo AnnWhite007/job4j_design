@@ -21,14 +21,17 @@ insert into devices_people(device_id, people_id) values (1, 1), (1, 2);
 insert into devices_people(device_id, people_id) values (2, 1), (2, 2), (2, 3);
 insert into devices_people(device_id, people_id) values (3, 2), (3, 3);
 
+---Используя агрегатные функции вывести среднюю цену устройств.
 select avg(price) from devices;
 
+---Используя группировку вывести для каждого человека среднюю цену его устройств.
 select p.name, avg(d.price)
 from devices as d, people as p, devices_people as dp
 where dp.device_id = d.id
 and dp.people_id = p.id
 group by p.name;
 
+--- +средняя стоимость устройств должна быть больше 5000.
 select p.name, avg(d.price)
 from devices as d, people as p, devices_people as dp
 where dp.device_id = d.id

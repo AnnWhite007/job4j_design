@@ -19,6 +19,7 @@ insert into people(name, ticket_id) values ('Anna', 2);
 insert into people(name, ticket_id) values ('Kate', 3);
 insert into people(name) values ('Kate');
 
+---Написать 3 запроса с inner join с использованием альясов
 select * from people
 join ticket t
 on people.ticket_id = t.id;
