@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 /**
@@ -27,7 +28,7 @@ import java.util.Properties;
  * Чтобы сдвинуть курсор используется метод next(), если он возвращает true, то сдвиг произошел и мы можем получить данные.
  * Для того чтобы получить id. Нужно при создании PrepareStatement вторым аргументом передать Statement.RETURNING_GENERATED_KEYS.
  * После как обычно выполнить запрос. Наконец, чтобы получить ключ нужно вызвать метод getGeneratedKeys().
- *
+ * <p>
  * Задание: У нас появился клиент, который хочет создать базу данных для спамеров.
  * На рынке ему продали диск, в котором находятся txt файлы. Формат данных dump.txt
  * Клиент просит перевести эти файлы в базу данных PostgreSQL.
@@ -47,15 +48,14 @@ public class ImportDB {
 
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
-        String e;
-        String[] ee;
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
-            while ((e = rd.readLine()) != null) {
-                ee = e.split(";");
-                if (ee[0] != null && ee[1] != null) {
-                    users.add(new User(ee[0], ee[1]));
+            rd.lines().forEach(line -> {
+                String[] e = line.split(";");
+                if (e.length < 2 || (e[0].isBlank() || e[1].isBlank())) {
+                    throw new IllegalArgumentException();
                 }
-            }
+                    users.add(new User(e[0], e[1]));
+            });
         }
         return users;
     }
