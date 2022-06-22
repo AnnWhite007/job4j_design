@@ -10,18 +10,18 @@ import java.util.StringJoiner;
  * Для исполнения операций существуют специальные интерфейсы: Statement, PrepareStatement.
  * Для выполнения запроса для объекта существуют 3 метода: execute(), executeUpdate(), executeQuery().
  * При их вызове мы должны передать в качестве аргумента SQL - запрос.
- *
+ * <p>
  * executeUpdate() используется как для выполнения операторов управления данными (DML - операторы),
  * например INSERT, UPDATE или DELETE, так и для операторов определения структуры базы данных (DDL - операторы),
  * например CREATE TABLE, DROP TABLE. Возвращает int – количество affected строк, т.е. количество строк на которые оказал влияние запрос.
  * Для операторов, которые не манипулируют строками, таких как CREATE TABLE или DROP TABLE, возвращаемое значение executeUpdate всегда равно нулю.
- *
+ * <p>
  * executeQuery() используется для выполнения операции SELECT и возвращает объект ResultSet, который позволяет пройтись по результатам запроса.
- *
+ * <p>
  * execute() используется для выполнения любых команд. Возвращает true, если результатом выполнения является ResultSet (то есть был выполнен SELECT запрос),
  * или false, если результатом является int (количество изменённых строк). Получить ResultSet
  * или количество строк мы можем с помощью последующего вызова getUpdateCount() или getResultSet().
- *
+ * <p>
  * Задание:
  * 1. Дан каркас класса. Реализовать его методы. Чтение настроек должно идти из файла *.properties
  * " https://www.postgresqltutorial.com/ "
@@ -33,13 +33,9 @@ public class TableEditor implements AutoCloseable {
 
     private Properties properties;
 
-    public TableEditor(Properties properties) {
+    public TableEditor(Properties properties) throws Exception {
         this.properties = properties;
-        try {
-            initConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        initConnection();
     }
 
     private void initConnection() throws Exception {
@@ -57,32 +53,44 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
-    /** Создает пустую таблицу без столбцов с указанным именем */
+    /**
+     * Создает пустую таблицу без столбцов с указанным именем
+     */
     public void createTable(String tableName) throws Exception {
         initAction("CREATE TABLE " + tableName + " ();");
     }
 
-    /** Удаляет таблицу по указанному имени */
+    /**
+     * Удаляет таблицу по указанному имени
+     */
     public void dropTable(String tableName) throws Exception {
         initAction("DROP TABLE " + tableName + ";");
     }
 
-    /** Добавляет столбец в таблицу */
+    /**
+     * Добавляет столбец в таблицу
+     */
     public void addColumn(String tableName, String columnName, String type) throws Exception {
         initAction("ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + type + ";");
     }
 
-    /** Удаляет столбец из таблицы */
+    /**
+     * Удаляет столбец из таблицы
+     */
     public void dropColumn(String tableName, String columnName) throws Exception {
         initAction("ALTER TABLE " + tableName + " DROP COLUMN " + columnName + ";");
     }
 
-    /** Переименовывает столбец */
+    /**
+     * Переименовывает столбец
+     */
     public void renameColumn(String tableName, String columnName, String newColumnName) throws Exception {
         initAction("ALTER TABLE " + tableName + " RENAME COLUMN " + columnName + " TO " + newColumnName + ";");
     }
 
-    /** Вывод схемы таблицы */
+    /**
+     * Вывод схемы таблицы
+     */
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
         var rowSeparator = "-".repeat(30).concat(System.lineSeparator());
         var header = String.format("%-15s|%-15s%n", "NAME", "TYPE");
@@ -114,11 +122,12 @@ public class TableEditor implements AutoCloseable {
         try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
             config.load(in);
         }
-        TableEditor tableEditor = new TableEditor(config);
-        tableEditor.createTable("newtable");
-        tableEditor.addColumn("newtable", "first", "int");
-        tableEditor.renameColumn("newtable", "first", "second");
-        tableEditor.dropColumn("newtable", "second");
-        tableEditor.dropTable("newtable");
+        try (TableEditor tableEditor = new TableEditor(config)) {
+            tableEditor.createTable("newtable");
+            tableEditor.addColumn("newtable", "first", "int");
+            tableEditor.renameColumn("newtable", "first", "second");
+            tableEditor.dropColumn("newtable", "second");
+            tableEditor.dropTable("newtable");
+        }
     }
 }
