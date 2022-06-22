@@ -49,7 +49,9 @@ public class TableEditor implements AutoCloseable {
     public void initAction(String command) throws Exception {
         try (Statement statement = connection.createStatement()) {
             statement.execute(command);
-            System.out.println(getTableScheme(connection, "newtable"));
+            if (!command.startsWith("DROP TABLE")) {
+                System.out.println(getTableScheme(connection, "newtable"));
+            }
         }
     }
 
