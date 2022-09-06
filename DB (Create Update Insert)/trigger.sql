@@ -37,10 +37,8 @@ create or replace function nalog_before()
     returns trigger as
 $$
     BEGIN
-        update products
-        set price = price + price * 0.18
-        where id = new.id;
-        return NEW;
+        new.price = new.price + new.price * 0.18;
+        return new;
     END;
 $$
 LANGUAGE 'plpgsql';
@@ -63,7 +61,7 @@ create or replace function history()
     returns trigger as
 $$
     BEGIN
-        insert into history_of_price(name, price, date) values (new.name, new.price, datetime('now'));
+        insert into history_of_price(name, price, date) values (new.name, new.price, now);
     END;
 $$
 LANGUAGE 'plpgsql';
