@@ -61,7 +61,7 @@ create or replace function history()
     returns trigger as
 $$
     BEGIN
-        insert into history_of_price(name, price, date) values (new.name, new.price, now);
+        insert into history_of_price(name, price, date) values (new.name, new.price, now());
     END;
 $$
 LANGUAGE 'plpgsql';
