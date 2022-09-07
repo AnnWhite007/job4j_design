@@ -38,3 +38,28 @@ BEGIN
 select sum(price) from cars;
 update cars set price = 1500000 where brand = 'Honda';
 commit;
+
+
+---Работа с транзакциями
+
+---начать транзакцию (start transaction;), set transaction режим_транзакции;
+begin transaction;
+select * from cars;
+insert into cars(brand, model, age, price) values('BMW', 'X5', 5, 3000000);
+savepoint first_savepoint;
+insert into cars(brand, model, age, price) values('BMW', 'X3', 2, 3500000);
+update cars set age = 8 where model = 'X90';
+---устанавливает новую точку сохранения (удалить точку release savepoint имя_точки_сохранения;)
+savepoint second_savepoint;
+update cars set price = 1500000 where model = 'Civic';
+select * from cars;
+---откатить все команды, которые выполнены после установления точки сохранения
+rollback to second_savepoint;
+select * from cars;
+rollback to first_savepoint;
+select * from cars;
+---прервать текущую транзакцию (rollback transaction;)
+rollback;
+select * from cars;
+---фиксировать все изменения (commit transaction;)
+commit;
