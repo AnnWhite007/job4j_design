@@ -32,12 +32,11 @@ insert into person(id, name, company_id) values (8, 'MM', 5);
 --- 1. В одном запросе получить
 
 --- имена всех person, которые не состоят в компании с id = 5;
-SELECT name FROM person
-WHERE company_id != 5;
 --- название компании для каждого человека.
 SELECT p.name, c.name FROM person as p
 JOIN company c
-ON p.company_id = c.id;
+ON p.company_id = c.id
+WHERE  p.company_id != 5;
 
 ---2. Необходимо выбрать название компании с максимальным количеством человек + количество человек в этой компании
 ---нужно учесть, что таких компаний может быть несколько, и вывести надо информацию о каждой компании.
@@ -46,9 +45,9 @@ FROM company as c
 join person p
 ON c.id = p.company_id
 GROUP BY c.name
-HAVING count(p.name) = (SELECT MAX (num)
-    FROM (SELECT count(p.name) num
-        FROM person as p
-        join company c
-        ON c.id = p.company_id
-        GROUP BY c.name) as n);
+HAVING count(p.name) = (SELECT count(company_id)
+    FROM person
+    GROUP BY company_id
+    ORDER BY count(company_id) DESC
+    LIMIT 1
+    );
